@@ -1,0 +1,64 @@
+import { LoadingButton } from "@mui/lab";
+import { Alert, AlertTitle, Box, TextField } from "@mui/material";
+import PropTypes from "prop-types";
+import AddIcon from "@mui/icons-material/Add";
+const FormAddCourse = ({ handleAddCourse, error, loading }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = new FormData(e.currentTarget);
+    const body = {
+      name: data.get("name"),
+      credits: data.get("credits"),
+    };
+    handleAddCourse(body);
+  };
+  return (
+    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      {error && (
+        <Alert severity="error" fullwidth="true">
+          <AlertTitle>Error</AlertTitle>
+          {error} — <strong>check it out!</strong>
+        </Alert>
+      )}
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        id="name"
+        label="name Course"
+        name="name"
+        autoComplete="name"
+        autoFocus
+      />
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        name="credits"
+        label="credits"
+        type="number"
+        id="credits"
+        autoComplete="current-password"
+      />
+      <LoadingButton
+        type="submit"
+        fullWidth
+        loading={loading}
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        endIcon={<AddIcon />}
+      >
+        create Course
+      </LoadingButton>
+    </Box>
+  );
+};
+
+FormAddCourse.propTypes = {
+  handleAddCourse: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
+};
+
+export default FormAddCourse;
